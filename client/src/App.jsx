@@ -144,7 +144,6 @@ function App() {
   const [selectedState, setSelectedState] = useState('All');
   const [language, setLanguage] = useState('en');
   const [mapMode, setMapMode] = useState('leaflet');
-  const [activeDeepDiveTab, setActiveDeepDiveTab] = useState('kerala');
   const [summary, setSummary] = useState(null);
   const [alerts, setAlerts] = useState([]);
   const [helplines, setHelplines] = useState([]);
@@ -249,9 +248,16 @@ function App() {
     };
 
     load();
-    if (selectedState === 'Telangana') setActiveDeepDiveTab('telangana');
-    else if (selectedState === 'Andhra Pradesh') setActiveDeepDiveTab('andhra');
-    else if (selectedState === 'Kerala') setActiveDeepDiveTab('kerala');
+    if (selectedState === 'Telangana') {
+      const el = document.getElementById('section-telangana');
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else if (selectedState === 'Andhra Pradesh') {
+      const el = document.getElementById('section-andhra');
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else if (selectedState === 'Kerala') {
+      const el = document.getElementById('section-kerala');
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
   }, [selectedState]);
 
   if (!summary) return <div style={{ padding: '40px', textAlign: 'center' }}>Loading SIDAS Glass Engine...</div>;
@@ -371,27 +377,31 @@ function App() {
           </div>
         </div>
 
-        {/* Dedicated State Deep-Dive Intelligence Sections */}
-        <div style={{ marginTop: '24px', borderTop: '2px solid #e2e8f0', paddingTop: '20px' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px', marginBottom: '16px' }}>
+        {/* Dedicated State Deep-Dive Intelligence Sections (Stacked Sequentially) */}
+        <div style={{ marginTop: '28px', borderTop: '2px solid #e2e8f0', paddingTop: '24px', display: 'flex', flexDirection: 'column', gap: '32px' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
             <div>
-              <h3 style={{ margin: 0, fontSize: '18px', fontWeight: 800, color: '#0f172a' }}>
+              <h3 style={{ margin: 0, fontSize: '20px', fontWeight: 800, color: '#0f172a' }}>
                 State-Specific Disaster Intelligence Deep-Dives
               </h3>
-              <p style={{ margin: '4px 0 0 0', fontSize: '12px', color: '#64748b' }}>
-                Dedicated hydrological gauge networks, ML risk models & historical telemetry for each state
+              <p style={{ margin: '4px 0 0 0', fontSize: '13px', color: '#64748b' }}>
+                Dedicated hydrological gauge networks, ML risk models & historical telemetry for each state (One under one)
               </p>
             </div>
             
+            {/* Quick-Jump Section Navigation Bar */}
             <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
               <button
-                onClick={() => setActiveDeepDiveTab('kerala')}
+                onClick={() => {
+                  const el = document.getElementById('section-telangana');
+                  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }}
                 style={{
                   padding: '8px 14px',
                   borderRadius: '10px',
-                  border: '1px solid ' + (activeDeepDiveTab === 'kerala' ? '#0284c7' : '#e2e8f0'),
-                  background: activeDeepDiveTab === 'kerala' ? '#0284c7' : '#ffffff',
-                  color: activeDeepDiveTab === 'kerala' ? '#ffffff' : '#334155',
+                  border: '1px solid #ddd6fe',
+                  background: '#f5f3ff',
+                  color: '#6d28d9',
                   fontWeight: 700,
                   fontSize: '12px',
                   cursor: 'pointer',
@@ -399,17 +409,20 @@ function App() {
                   transition: 'all 0.15s ease'
                 }}
               >
-                🌊 Kerala River Basins
+                ⚡ Telangana Disaster Watch ↓
               </button>
 
               <button
-                onClick={() => setActiveDeepDiveTab('telangana')}
+                onClick={() => {
+                  const el = document.getElementById('section-andhra');
+                  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }}
                 style={{
                   padding: '8px 14px',
                   borderRadius: '10px',
-                  border: '1px solid ' + (activeDeepDiveTab === 'telangana' ? '#7c3aed' : '#e2e8f0'),
-                  background: activeDeepDiveTab === 'telangana' ? '#7c3aed' : '#ffffff',
-                  color: activeDeepDiveTab === 'telangana' ? '#ffffff' : '#334155',
+                  border: '1px solid #ffedd5',
+                  background: '#fff7ed',
+                  color: '#c2410c',
                   fontWeight: 700,
                   fontSize: '12px',
                   cursor: 'pointer',
@@ -417,17 +430,20 @@ function App() {
                   transition: 'all 0.15s ease'
                 }}
               >
-                ⚡ Telangana Disaster Watch
+                🌀 Andhra Pradesh Delta & Cyclone ↓
               </button>
 
               <button
-                onClick={() => setActiveDeepDiveTab('andhra')}
+                onClick={() => {
+                  const el = document.getElementById('section-kerala');
+                  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }}
                 style={{
                   padding: '8px 14px',
                   borderRadius: '10px',
-                  border: '1px solid ' + (activeDeepDiveTab === 'andhra' ? '#ea580c' : '#e2e8f0'),
-                  background: activeDeepDiveTab === 'andhra' ? '#ea580c' : '#ffffff',
-                  color: activeDeepDiveTab === 'andhra' ? '#ffffff' : '#334155',
+                  border: '1px solid #bae6fd',
+                  background: '#f0f9ff',
+                  color: '#0369a1',
                   fontWeight: 700,
                   fontSize: '12px',
                   cursor: 'pointer',
@@ -435,14 +451,29 @@ function App() {
                   transition: 'all 0.15s ease'
                 }}
               >
-                🌀 Andhra Pradesh Delta & Cyclone
+                🌊 Kerala River Basins ↓
               </button>
             </div>
           </div>
 
-          {activeDeepDiveTab === 'kerala' && <KeralaFloodBasinSection />}
-          {activeDeepDiveTab === 'telangana' && <TelanganaDisasterSection />}
-          {activeDeepDiveTab === 'andhra' && <AndhraPradeshDisasterSection />}
+          {/* Section 1: Telangana */}
+          <div id="section-telangana" style={{ scrollMarginTop: '20px' }}>
+            <TelanganaDisasterSection />
+          </div>
+
+          <div style={{ height: '1px', background: '#e2e8f0', margin: '8px 0' }} />
+
+          {/* Section 2: Andhra Pradesh */}
+          <div id="section-andhra" style={{ scrollMarginTop: '20px' }}>
+            <AndhraPradeshDisasterSection />
+          </div>
+
+          <div style={{ height: '1px', background: '#e2e8f0', margin: '8px 0' }} />
+
+          {/* Section 3: Kerala */}
+          <div id="section-kerala" style={{ scrollMarginTop: '20px' }}>
+            <KeralaFloodBasinSection />
+          </div>
         </div>
       </div>
 
