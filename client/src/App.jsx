@@ -6,6 +6,8 @@ import AlertDetailDrawer from './components/AlertDetailDrawer';
 import ReportSOSModal from './components/ReportSOSModal';
 import AIPredictionPanel from './components/AIPredictionPanel';
 import KeralaFloodBasinSection from './components/KeralaFloodBasinSection';
+import TelanganaDisasterSection from './components/TelanganaDisasterSection';
+import AndhraPradeshDisasterSection from './components/AndhraPradeshDisasterSection';
 import { Home, BarChart2, Globe, Settings, Volume2, AlertTriangle, ShieldCheck } from 'lucide-react';
 
 const FALLBACK_SUMMARY = {
@@ -142,6 +144,7 @@ function App() {
   const [selectedState, setSelectedState] = useState('All');
   const [language, setLanguage] = useState('en');
   const [mapMode, setMapMode] = useState('leaflet');
+  const [activeDeepDiveTab, setActiveDeepDiveTab] = useState('kerala');
   const [summary, setSummary] = useState(null);
   const [alerts, setAlerts] = useState([]);
   const [helplines, setHelplines] = useState([]);
@@ -246,6 +249,9 @@ function App() {
     };
 
     load();
+    if (selectedState === 'Telangana') setActiveDeepDiveTab('telangana');
+    else if (selectedState === 'Andhra Pradesh') setActiveDeepDiveTab('andhra');
+    else if (selectedState === 'Kerala') setActiveDeepDiveTab('kerala');
   }, [selectedState]);
 
   if (!summary) return <div style={{ padding: '40px', textAlign: 'center' }}>Loading SIDAS Glass Engine...</div>;
@@ -365,8 +371,79 @@ function App() {
           </div>
         </div>
 
-        {/* Dedicated Kerala River Basins & Historical Flood Intelligence Subsection */}
-        <KeralaFloodBasinSection />
+        {/* Dedicated State Deep-Dive Intelligence Sections */}
+        <div style={{ marginTop: '24px', borderTop: '2px solid #e2e8f0', paddingTop: '20px' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px', marginBottom: '16px' }}>
+            <div>
+              <h3 style={{ margin: 0, fontSize: '18px', fontWeight: 800, color: '#0f172a' }}>
+                State-Specific Disaster Intelligence Deep-Dives
+              </h3>
+              <p style={{ margin: '4px 0 0 0', fontSize: '12px', color: '#64748b' }}>
+                Dedicated hydrological gauge networks, ML risk models & historical telemetry for each state
+              </p>
+            </div>
+            
+            <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+              <button
+                onClick={() => setActiveDeepDiveTab('kerala')}
+                style={{
+                  padding: '8px 14px',
+                  borderRadius: '10px',
+                  border: '1px solid ' + (activeDeepDiveTab === 'kerala' ? '#0284c7' : '#e2e8f0'),
+                  background: activeDeepDiveTab === 'kerala' ? '#0284c7' : '#ffffff',
+                  color: activeDeepDiveTab === 'kerala' ? '#ffffff' : '#334155',
+                  fontWeight: 700,
+                  fontSize: '12px',
+                  cursor: 'pointer',
+                  boxShadow: '0 1px 3px rgba(0,0,0,0.06)',
+                  transition: 'all 0.15s ease'
+                }}
+              >
+                🌊 Kerala River Basins
+              </button>
+
+              <button
+                onClick={() => setActiveDeepDiveTab('telangana')}
+                style={{
+                  padding: '8px 14px',
+                  borderRadius: '10px',
+                  border: '1px solid ' + (activeDeepDiveTab === 'telangana' ? '#7c3aed' : '#e2e8f0'),
+                  background: activeDeepDiveTab === 'telangana' ? '#7c3aed' : '#ffffff',
+                  color: activeDeepDiveTab === 'telangana' ? '#ffffff' : '#334155',
+                  fontWeight: 700,
+                  fontSize: '12px',
+                  cursor: 'pointer',
+                  boxShadow: '0 1px 3px rgba(0,0,0,0.06)',
+                  transition: 'all 0.15s ease'
+                }}
+              >
+                ⚡ Telangana Disaster Watch
+              </button>
+
+              <button
+                onClick={() => setActiveDeepDiveTab('andhra')}
+                style={{
+                  padding: '8px 14px',
+                  borderRadius: '10px',
+                  border: '1px solid ' + (activeDeepDiveTab === 'andhra' ? '#ea580c' : '#e2e8f0'),
+                  background: activeDeepDiveTab === 'andhra' ? '#ea580c' : '#ffffff',
+                  color: activeDeepDiveTab === 'andhra' ? '#ffffff' : '#334155',
+                  fontWeight: 700,
+                  fontSize: '12px',
+                  cursor: 'pointer',
+                  boxShadow: '0 1px 3px rgba(0,0,0,0.06)',
+                  transition: 'all 0.15s ease'
+                }}
+              >
+                🌀 Andhra Pradesh Delta & Cyclone
+              </button>
+            </div>
+          </div>
+
+          {activeDeepDiveTab === 'kerala' && <KeralaFloodBasinSection />}
+          {activeDeepDiveTab === 'telangana' && <TelanganaDisasterSection />}
+          {activeDeepDiveTab === 'andhra' && <AndhraPradeshDisasterSection />}
+        </div>
       </div>
 
       <AlertDetailDrawer alert={selectedAlert} language={language} onClose={() => setSelectedAlert(null)} helplines={helplines} />

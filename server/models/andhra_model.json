@@ -1,0 +1,41 @@
+{
+  "state": "Andhra Pradesh",
+  "model_name": "andhra_pradesh_disaster_risk_scorer",
+  "version": "v1.0",
+  "accuracy": 0.995,
+  "features": [
+    "wind_speed",
+    "coastal_dist_km",
+    "rain_24h",
+    "barrage_discharge_lakh_cusecs",
+    "sea_swell_m"
+  ],
+  "feature_importances": {
+    "wind_speed": 0.0482,
+    "coastal_dist_km": 0.0347,
+    "rain_24h": 0.265,
+    "barrage_discharge_lakh_cusecs": 0.6365,
+    "sea_swell_m": 0.0155
+  },
+  "key_stations": [
+    {
+      "name": "Dowleswaram Barrage (Godavari)",
+      "type": "Delta Barrage",
+      "warning_level": "10.00 ft (1st Warning)",
+      "danger_level": "13.75 ft (2nd Warning)",
+      "hfl_level": "17.75 ft (3rd Warning / 25L Cusecs)"
+    },
+    {
+      "name": "Prakasam Barrage (Krishna)",
+      "type": "Delta Barrage",
+      "warning_discharge": "3.97 Lakh Cusecs",
+      "danger_discharge": "5.69 Lakh Cusecs"
+    },
+    {
+      "name": "Visakhapatnam Coast",
+      "type": "Cyclone Radar",
+      "warning_wind": 50,
+      "danger_wind": 85
+    }
+  ]
+}

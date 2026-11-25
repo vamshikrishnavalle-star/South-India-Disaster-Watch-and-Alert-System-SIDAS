@@ -1,0 +1,43 @@
+{
+  "state": "Telangana",
+  "model_name": "telangana_disaster_risk_scorer",
+  "version": "v1.0",
+  "accuracy": 0.985,
+  "features": [
+    "rain_24h",
+    "rain_72h",
+    "upstream_inflow_k_cusecs",
+    "temp_max",
+    "humidity",
+    "urban_density"
+  ],
+  "feature_importances": {
+    "rain_24h": 0.187,
+    "rain_72h": 0.0665,
+    "upstream_inflow_k_cusecs": 0.3784,
+    "temp_max": 0.3484,
+    "humidity": 0.0166,
+    "urban_density": 0.0031
+  },
+  "key_stations": [
+    {
+      "name": "Bhadrachalam (Godavari)",
+      "type": "Riverine Gauge",
+      "warning_ft": 43,
+      "danger_ft": 48,
+      "second_danger_ft": 53
+    },
+    {
+      "name": "Hyderabad (Musi / GHMC)",
+      "type": "Urban Runoff",
+      "warning_mm": 50,
+      "danger_mm": 115
+    },
+    {
+      "name": "Ramagundam / Peddapalli",
+      "type": "Heatwave Index",
+      "warning_c": 41,
+      "danger_c": 44
+    }
+  ]
+}
