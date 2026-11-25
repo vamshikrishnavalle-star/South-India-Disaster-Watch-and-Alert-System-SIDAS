@@ -155,9 +155,17 @@ function App() {
   };
 
   useEffect(() => {
+    const apiBase = (import.meta.env.VITE_API_URL || '').replace(/\/$/, '');
+
     const load = async () => {
       try {
         const fetchEndpoint = async (path) => {
+          if (apiBase) {
+            try {
+              const r = await fetch(`${apiBase}${path}`);
+              if (r.ok) return await r.json();
+            } catch (_) {}
+          }
           try {
             const r = await fetch(path);
             if (r.ok) return await r.json();

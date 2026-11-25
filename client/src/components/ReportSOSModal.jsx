@@ -8,10 +8,19 @@ const ReportSOSModal = ({ isOpen, onClose, selectedState }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const apiBase = (import.meta.env.VITE_API_URL || '').replace(/\/$/, '');
+    const url = apiBase ? `${apiBase}/api/v1/reports` : '/api/v1/reports';
+
     try {
-      await fetch('http://localhost:5000/api/v1/reports', {
+      let res = await fetch(url, {
         method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(formData)
-      });
+      }).catch(() => null);
+
+      if (!res || !res.ok) {
+        res = await fetch('http://localhost:5000/api/v1/reports', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(formData)
+        });
+      }
       alert("SOS Transmitted to Emergency Ops.");
     } catch (err) {
       alert("Failed to submit SOS report: " + err.message);

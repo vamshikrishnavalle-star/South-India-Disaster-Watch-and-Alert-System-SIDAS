@@ -50,16 +50,26 @@ const AIPredictionPanel = ({ selectedState = 'All' }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const apiBase = (import.meta.env.VITE_API_URL || '').replace(/\/$/, '');
+
     const fetchPredictions = async () => {
       try {
-        const res = await fetch(`/api/v1/predictions?state=${selectedState}`).catch(() => 
-          fetch(`http://localhost:5000/api/v1/predictions?state=${selectedState}`)
-        );
-        if (res.ok) {
+        let res = null;
+        if (apiBase) {
+          try {
+            res = await fetch(`${apiBase}/api/v1/predictions?state=${selectedState}`);
+          } catch (_) {}
+        }
+        if (!res || !res.ok) {
+          res = await fetch(`/api/v1/predictions?state=${selectedState}`).catch(() => 
+            fetch(`http://localhost:5000/api/v1/predictions?state=${selectedState}`)
+          );
+        }
+        if (res && res.ok) {
           const data = await res.json();
           setPredictions(data.predictions || []);
         } else {
-          throw new Error("HTTP error " + res.status);
+          throw new Error("HTTP error " + (res ? res.status : 'offline'));
         }
       } catch (err) {
         console.warn("Using fallback ML predictions:", err);
