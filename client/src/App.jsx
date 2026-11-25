@@ -4,6 +4,7 @@ import SouthIndiaHeroMap from './components/SouthIndiaHeroMap';
 import DistrictLeafletMap from './components/DistrictLeafletMap';
 import AlertDetailDrawer from './components/AlertDetailDrawer';
 import ReportSOSModal from './components/ReportSOSModal';
+import AIPredictionPanel from './components/AIPredictionPanel';
 import { Home, BarChart2, Globe, Settings, Search } from 'lucide-react';
 
 function App() {
@@ -122,7 +123,7 @@ function App() {
           </div>
         </header>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '260px 1fr 300px', gap: '20px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '260px 1fr 320px', gap: '20px' }}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
             <div className="glass-card">
               <span style={{ fontSize: '13px', color: '#64748b' }}>Active Regional Alerts</span>
@@ -141,13 +142,17 @@ function App() {
             {mapMode === 'hero' ? <SouthIndiaHeroMap alerts={alerts} stateSeverities={summary.stateSeverities} onSelectAlert={setSelectedAlert}/> : <DistrictLeafletMap alerts={alerts} onSelectAlert={setSelectedAlert}/>}
           </div>
 
-          <div className="glass-card">
-            <h4 style={{ margin: '0 0 10px 0' }}>Hazard Breakdown</h4>
-            {Object.entries(summary.hazardCounts).map(([h, c]) => (
-              <div key={h} style={{ marginBottom: '8px', fontSize: '12px' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between' }}><span>{h}</span><strong>{c}</strong></div>
-              </div>
-            ))}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+            <AIPredictionPanel selectedState={selectedState} />
+
+            <div className="glass-card">
+              <h4 style={{ margin: '0 0 10px 0' }}>Hazard Breakdown</h4>
+              {Object.entries(summary.hazardCounts).map(([h, c]) => (
+                <div key={h} style={{ marginBottom: '8px', fontSize: '12px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between' }}><span>{h}</span><strong>{c}</strong></div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>

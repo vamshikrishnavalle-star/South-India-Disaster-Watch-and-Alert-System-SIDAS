@@ -16,11 +16,13 @@ const apiRoutes = require('./routes/api');
 const summaryRoutes = require('./routes/summary');
 const reportRoutes = require('./routes/reports');
 const subscribeRoutes = require('./routes/subscribe');
+const predictionRoutes = require('./routes/predictions');
 
 app.use('/api/v1', apiRoutes);
 app.use('/api/v1', summaryRoutes);
 app.use('/api/v1', reportRoutes);
 app.use('/api/v1', subscribeRoutes);
+app.use('/api/v1', predictionRoutes);
 
 // Global Error Handler
 app.use((err, req, res, next) => {
