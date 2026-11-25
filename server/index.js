@@ -9,6 +9,7 @@ const PORT = process.env.PORT || 5000;
 
 // CORS configuration supporting Vercel production domains and local development
 const allowedOrigins = [
+  'https://south-india-disaster-watch-and-alert-system-sidas.vercel.app',
   'https://kerala-flood-watch.vercel.app',
   'https://keralafloodwatch.in',
   'http://localhost:5173',
