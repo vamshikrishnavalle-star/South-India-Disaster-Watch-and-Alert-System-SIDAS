@@ -1,0 +1,59 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Sans+Telugu&family=Noto+Sans+Tamil&family=Noto+Sans+Malayalam&display=swap');
+
+:root {
+  --bg-gradient: linear-gradient(135deg, #f3f7fb 0%, #e2ecf7 100%);
+  --glass-bg: rgba(255, 255, 255, 0.72);
+  --glass-border: rgba(255, 255, 255, 0.9);
+  --glass-shadow: 0 20px 40px rgba(15, 23, 42, 0.06);
+  --primary-accent: #1f8a4c;
+  --primary-accent-light: #e8f5e9;
+  --text-main: #0f172a;
+}
+
+body {
+  margin: 0;
+  font-family: 'Plus Jakarta Sans', 'Noto Sans Telugu', 'Noto Sans Tamil', 'Noto Sans Malayalam', sans-serif;
+  background: var(--bg-gradient);
+  color: var(--text-main);
+  min-height: 100vh;
+}
+
+.glass-container {
+  max-width: 1520px;
+  margin: 20px auto;
+  background: rgba(255, 255, 255, 0.45);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--glass-border);
+  border-radius: 28px;
+  box-shadow: var(--glass-shadow);
+  display: flex;
+  overflow: hidden;
+}
+
+.glass-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  padding: 20px;
+  box-shadow: 0 8px 24px rgba(148, 163, 184, 0.1);
+  transition: transform 0.2s ease;
+}
+
+.glass-card:hover { transform: translateY(-2px); }
+
+.glass-callout {
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(12px);
+  border: 1px solid #ffffff;
+  border-radius: 999px;
+  padding: 6px 14px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  display: flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 700;
+}
+
+.delta-chip { display: inline-flex; padding: 3px 8px; border-radius: 999px; font-size: 11px; font-weight: 700; }
+.delta-chip.red { background: #fef2f2; color: #dc2626; }
+.delta-chip.green { background: #f0fdf4; color: #16a34a; }
