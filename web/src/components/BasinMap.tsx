@@ -34,16 +34,14 @@ export const BasinMap: React.FC<BasinMapProps> = ({
     (p) => p.alert_level === 'ALERT'
   ).length;
 
-  const cartoKey = (import.meta as unknown as { env: Record<string, string> }).env?.VITE_CARTO_API_KEY;
+  let tileUrl: string;
+  let attribution: string;
 
-  let tileUrl = 'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}';
-  let attribution = 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ';
-
-  if (cartoKey) {
-    tileUrl = `https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png?api_key=${cartoKey}`;
-    attribution = '&copy; <a href="https://carto.com/">CARTO</a>';
-  } else if (basemap === 'osm') {
-    tileUrl = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
+  if (basemap === 'canvas') {
+    tileUrl = 'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}';
+    attribution = 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ';
+  } else {
+    tileUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
     attribution = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
   }
 
