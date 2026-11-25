@@ -5,6 +5,7 @@ import DistrictLeafletMap from './components/DistrictLeafletMap';
 import AlertDetailDrawer from './components/AlertDetailDrawer';
 import ReportSOSModal from './components/ReportSOSModal';
 import AIPredictionPanel from './components/AIPredictionPanel';
+import KeralaFloodBasinSection from './components/KeralaFloodBasinSection';
 import { Home, BarChart2, Globe, Settings, Volume2, AlertTriangle, ShieldCheck } from 'lucide-react';
 
 const FALLBACK_SUMMARY = {
@@ -363,6 +364,9 @@ function App() {
             </div>
           </div>
         </div>
+
+        {/* Dedicated Kerala River Basins & Historical Flood Intelligence Subsection */}
+        <KeralaFloodBasinSection />
       </div>
 
       <AlertDetailDrawer alert={selectedAlert} language={language} onClose={() => setSelectedAlert(null)} helplines={helplines} />
