@@ -53,3 +53,9 @@ web/node_modules/
 web/dist/
 web/.vite/
 web/tsconfig.tsbuildinfo
+
+# Server and Client Node dependencies
+server/node_modules/
+client/node_modules/
+client/dist/
+
