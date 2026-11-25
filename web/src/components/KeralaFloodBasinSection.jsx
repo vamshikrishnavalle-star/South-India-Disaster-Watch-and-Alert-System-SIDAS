@@ -157,7 +157,7 @@ const HISTORICAL_BENCHMARKS = [
 
 export const KeralaFloodBasinSection = () => {
   const [selectedSlug, setSelectedSlug] = useState('pathanamthitta_kozhencherry');
-  const [basemapType, setBasemapType] = useState('canvas'); // 'canvas' or 'osm'
+  const [basemapType, setBasemapType] = useState('osm'); // 'osm' (Primary) or 'canvas'
 
   const selectedZone = KERALA_ZONES.find(z => z.slug === selectedSlug) || KERALA_ZONES[0];
 
@@ -251,6 +251,21 @@ export const KeralaFloodBasinSection = () => {
               <Layers size={13} /> Basemap:
             </span>
             <button
+              onClick={() => setBasemapType('osm')}
+              style={{
+                border: 'none',
+                background: basemapType === 'osm' ? '#0284c7' : 'transparent',
+                color: basemapType === 'osm' ? '#fff' : '#475569',
+                padding: '2px 8px',
+                borderRadius: '6px',
+                fontSize: '11px',
+                fontWeight: 700,
+                cursor: 'pointer'
+              }}
+            >
+              OpenStreetMap (Primary)
+            </button>
+            <button
               onClick={() => setBasemapType('canvas')}
               style={{
                 border: 'none',
@@ -264,21 +279,6 @@ export const KeralaFloodBasinSection = () => {
               }}
             >
               Light Canvas
-            </button>
-            <button
-              onClick={() => setBasemapType('osm')}
-              style={{
-                border: 'none',
-                background: basemapType === 'osm' ? '#0284c7' : 'transparent',
-                color: basemapType === 'osm' ? '#fff' : '#475569',
-                padding: '2px 8px',
-                borderRadius: '6px',
-                fontSize: '11px',
-                fontWeight: 700,
-                cursor: 'pointer'
-              }}
-            >
-              OpenStreetMap
             </button>
           </div>
 

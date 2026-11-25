@@ -96,7 +96,7 @@ const HISTORICAL_TELANGANA_DELUGES = [
 
 export const TelanganaDisasterSection = () => {
   const [selectedSlug, setSelectedSlug] = useState('bhadrachalam_godavari');
-  const [basemapType, setBasemapType] = useState('canvas');
+  const [basemapType, setBasemapType] = useState('osm');
 
   const selectedZone = TELANGANA_ZONES.find(z => z.slug === selectedSlug) || TELANGANA_ZONES[0];
 
@@ -179,6 +179,21 @@ export const TelanganaDisasterSection = () => {
               <Layers size={13} /> Basemap:
             </span>
             <button
+              onClick={() => setBasemapType('osm')}
+              style={{
+                border: 'none',
+                background: basemapType === 'osm' ? '#7c3aed' : 'transparent',
+                color: basemapType === 'osm' ? '#fff' : '#475569',
+                padding: '2px 8px',
+                borderRadius: '6px',
+                fontSize: '11px',
+                fontWeight: 700,
+                cursor: 'pointer'
+              }}
+            >
+              OpenStreetMap (Primary)
+            </button>
+            <button
               onClick={() => setBasemapType('canvas')}
               style={{
                 border: 'none',
@@ -192,21 +207,6 @@ export const TelanganaDisasterSection = () => {
               }}
             >
               Light Canvas
-            </button>
-            <button
-              onClick={() => setBasemapType('osm')}
-              style={{
-                border: 'none',
-                background: basemapType === 'osm' ? '#7c3aed' : 'transparent',
-                color: basemapType === 'osm' ? '#fff' : '#475569',
-                padding: '2px 8px',
-                borderRadius: '6px',
-                fontSize: '11px',
-                fontWeight: 700,
-                cursor: 'pointer'
-              }}
-            >
-              OpenStreetMap
             </button>
           </div>
 
