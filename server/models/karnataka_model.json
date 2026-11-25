@@ -1,0 +1,47 @@
+{
+  "state": "Karnataka",
+  "model_name": "karnataka_disaster_risk_scorer",
+  "version": "v1.0",
+  "accuracy": 0.995,
+  "features": [
+    "rain_24h",
+    "rain_72h",
+    "reservoir_inflow_k_cusecs",
+    "elevation_m",
+    "urban_density"
+  ],
+  "feature_importances": {
+    "rain_24h": 0.2404,
+    "rain_72h": 0.1317,
+    "reservoir_inflow_k_cusecs": 0.6131,
+    "elevation_m": 0.0077,
+    "urban_density": 0.0072
+  },
+  "key_stations": [
+    {
+      "name": "Krishna Raja Sagara (KRS Dam)",
+      "type": "Cauvery Dam Reservoir",
+      "frl_ft": 124.8,
+      "warning_cusecs": 80000,
+      "danger_cusecs": 120000
+    },
+    {
+      "name": "Bengaluru Urban (BBMP)",
+      "type": "Urban Runoff Radar",
+      "warning_mm": 65,
+      "danger_mm": 130
+    },
+    {
+      "name": "Almatti Dam (Bagalkote)",
+      "type": "Upper Krishna Reservoir",
+      "frl_m": 519.6,
+      "danger_cusecs": 350000
+    },
+    {
+      "name": "Bhagamandala (Kodagu)",
+      "type": "Western Ghats Landslide Radar",
+      "warning_mm": 120,
+      "danger_mm": 200
+    }
+  ]
+}

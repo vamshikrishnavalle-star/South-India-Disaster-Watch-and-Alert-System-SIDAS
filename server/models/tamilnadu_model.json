@@ -1,0 +1,47 @@
+{
+  "state": "Tamil Nadu",
+  "model_name": "tamil_nadu_disaster_risk_scorer",
+  "version": "v1.0",
+  "accuracy": 1.0,
+  "features": [
+    "rain_24h",
+    "nem_cum_mm",
+    "wind_gust_kmph",
+    "reservoir_release_cusecs",
+    "coastal_proximity_km"
+  ],
+  "feature_importances": {
+    "rain_24h": 0.175,
+    "nem_cum_mm": 0.1036,
+    "wind_gust_kmph": 0.0091,
+    "reservoir_release_cusecs": 0.7028,
+    "coastal_proximity_km": 0.0095
+  },
+  "key_stations": [
+    {
+      "name": "Chembarambakkam Reservoir (Adyar)",
+      "type": "Urban Reservoir",
+      "frl_ft": 24.0,
+      "safe_discharge_cusecs": 8000,
+      "danger_cusecs": 20000
+    },
+    {
+      "name": "Mettur Dam (Stanley Reservoir)",
+      "type": "Cauvery River Dam",
+      "frl_ft": 120.0,
+      "danger_inflow_cusecs": 150000
+    },
+    {
+      "name": "Cuddalore / Delta Coast",
+      "type": "Cyclone Radar",
+      "warning_wind": 55,
+      "danger_wind": 85
+    },
+    {
+      "name": "Kayalpattinam / Thamirabarani",
+      "type": "Extreme Cloudburst Radar",
+      "warning_mm": 100,
+      "danger_mm": 250
+    }
+  ]
+}

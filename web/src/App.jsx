@@ -8,6 +8,8 @@ import AIPredictionPanel from './components/AIPredictionPanel';
 import KeralaFloodBasinSection from './components/KeralaFloodBasinSection';
 import TelanganaDisasterSection from './components/TelanganaDisasterSection';
 import AndhraPradeshDisasterSection from './components/AndhraPradeshDisasterSection';
+import KarnatakaDisasterSection from './components/KarnatakaDisasterSection';
+import TamilNaduDisasterSection from './components/TamilNaduDisasterSection';
 import { Home, BarChart2, Globe, Settings, Volume2, AlertTriangle, ShieldCheck } from 'lucide-react';
 
 const FALLBACK_SUMMARY = {
@@ -254,6 +256,12 @@ function App() {
     } else if (selectedState === 'Andhra Pradesh') {
       const el = document.getElementById('section-andhra');
       if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else if (selectedState === 'Karnataka') {
+      const el = document.getElementById('section-karnataka');
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else if (selectedState === 'Tamil Nadu') {
+      const el = document.getElementById('section-tamilnadu');
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
     } else if (selectedState === 'Kerala') {
       const el = document.getElementById('section-kerala');
       if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -389,7 +397,7 @@ function App() {
               </p>
             </div>
             
-            {/* Quick-Jump Section Navigation Bar */}
+            {/* Quick-Jump Section Navigation Bar for All 5 States */}
             <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
               <button
                 onClick={() => {
@@ -435,7 +443,28 @@ function App() {
 
               <button
                 onClick={() => {
-                  const el = document.getElementById('section-kerala');
+                  const el = document.getElementById('section-karnataka');
+                  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }}
+                style={{
+                  padding: '8px 14px',
+                  borderRadius: '10px',
+                  border: '1px solid #fef08a',
+                  background: '#fefce8',
+                  color: '#854d0e',
+                  fontWeight: 700,
+                  fontSize: '12px',
+                  cursor: 'pointer',
+                  boxShadow: '0 1px 3px rgba(0,0,0,0.06)',
+                  transition: 'all 0.15s ease'
+                }}
+              >
+                ⛰️ Karnataka Reservoir & Ghats ↓
+              </button>
+
+              <button
+                onClick={() => {
+                  const el = document.getElementById('section-tamilnadu');
                   if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 }}
                 style={{
@@ -451,7 +480,28 @@ function App() {
                   transition: 'all 0.15s ease'
                 }}
               >
-                🌊 Kerala River Basins ↓
+                🌧️ Tamil Nadu Monsoon & Delta ↓
+              </button>
+
+              <button
+                onClick={() => {
+                  const el = document.getElementById('section-kerala');
+                  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }}
+                style={{
+                  padding: '8px 14px',
+                  borderRadius: '10px',
+                  border: '1px solid #a7f3d0',
+                  background: '#ecfdf5',
+                  color: '#065f46',
+                  fontWeight: 700,
+                  fontSize: '12px',
+                  cursor: 'pointer',
+                  boxShadow: '0 1px 3px rgba(0,0,0,0.06)',
+                  transition: 'all 0.15s ease'
+                }}
+              >
+                🌊 Kerala River Basins (CWC) ↓
               </button>
             </div>
           </div>
@@ -470,7 +520,21 @@ function App() {
 
           <div style={{ height: '1px', background: '#e2e8f0', margin: '8px 0' }} />
 
-          {/* Section 3: Kerala */}
+          {/* Section 3: Karnataka */}
+          <div id="section-karnataka" style={{ scrollMarginTop: '20px' }}>
+            <KarnatakaDisasterSection />
+          </div>
+
+          <div style={{ height: '1px', background: '#e2e8f0', margin: '8px 0' }} />
+
+          {/* Section 4: Tamil Nadu */}
+          <div id="section-tamilnadu" style={{ scrollMarginTop: '20px' }}>
+            <TamilNaduDisasterSection />
+          </div>
+
+          <div style={{ height: '1px', background: '#e2e8f0', margin: '8px 0' }} />
+
+          {/* Section 5: Kerala */}
           <div id="section-kerala" style={{ scrollMarginTop: '20px' }}>
             <KeralaFloodBasinSection />
           </div>
