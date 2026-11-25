@@ -93,5 +93,7 @@ INSERT INTO helplines (state, district, category, name, phone_number) VALUES
 ('Tamil Nadu', 'Statewide', 'Control Room', 'TN State Disaster Management Authority', '1070'),
 ('Tamil Nadu', 'Chennai', 'Control Room', 'GCC Flood Control Room', '1913'),
 ('Kerala', 'Statewide', 'Control Room', 'Kerala State Emergency Operations Centre', '1077'),
-('Kerala', 'Wayanad', 'Control Room', 'Wayanad District Collectorate Emergency Ops', '04936-204151')
+('Kerala', 'Wayanad', 'Control Room', 'Wayanad District Collectorate Emergency Ops', '04936-204151'),
+('Karnataka', 'Statewide', 'Control Room', 'Karnataka State Disaster Management Authority', '1070'),
+('Karnataka', 'Bengaluru', 'Control Room', 'BBMP Disaster Control Room', '1533')
 ON CONFLICT DO NOTHING;

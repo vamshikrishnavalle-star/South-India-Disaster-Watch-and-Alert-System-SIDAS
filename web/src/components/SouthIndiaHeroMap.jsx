@@ -87,7 +87,7 @@ const SouthIndiaHeroMap = ({ alerts = [], stateSeverities = {}, onSelectAlert })
           <text x="440" y="320" fill="#0284c7" fontSize="13" fontStyle="italic" fontWeight="600" opacity="0.35">BAY OF BENGAL</text>
           <text x="240" y="635" fill="#0284c7" fontSize="12" fontStyle="italic" fontWeight="600" opacity="0.35">INDIAN OCEAN</text>
 
-          {/* 1. Contextual Neighbor: KARNATAKA (Neutral reference to complete South India geometry seamlessly) */}
+          {/* 1. KARNATAKA (Interactive region with Western Ghats & Deccan plateau geometry) */}
           <path
             d="M 215,70 
                C 210,95 200,120 190,145 
@@ -98,12 +98,19 @@ const SouthIndiaHeroMap = ({ alerts = [], stateSeverities = {}, onSelectAlert })
                C 255,340 260,310 255,275 
                C 250,240 260,205 250,170 
                C 240,135 235,100 215,70 Z"
-            fill="#f1f5f9"
-            stroke="#cbd5e1"
-            strokeWidth="1.5"
-            strokeDasharray="2,2"
+            fill={getFill('Karnataka')}
+            stroke={getStroke('Karnataka')}
+            strokeWidth={hoveredState === 'Karnataka' ? '3' : '2'}
+            onMouseEnter={() => setHoveredState('Karnataka')}
+            onMouseLeave={() => setHoveredState(null)}
+            style={{ cursor: 'pointer', transition: 'all 0.2s ease' }}
           />
-          <text x="180" y="270" fill="#94a3b8" fontSize="11" fontWeight="700" letterSpacing="1">KARNATAKA</text>
+          <text x="200" y="240" fill="#1e293b" fontSize="13" fontWeight="800" textAnchor="middle" pointerEvents="none">
+            KARNATAKA
+          </text>
+          <text x="200" y="255" fill={getStroke('Karnataka')} fontSize="10" fontWeight="700" textAnchor="middle" pointerEvents="none">
+            {getSeverity('Karnataka').toUpperCase()} ALERT
+          </text>
 
           {/* 2. TELANGANA (Seamless border with Karnataka west, AP south & east, MH north) */}
           <path
@@ -240,9 +247,31 @@ const SouthIndiaHeroMap = ({ alerts = [], stateSeverities = {}, onSelectAlert })
             </circle>
             <circle r="4.5" fill="#ca8a04" stroke="#ffffff" strokeWidth="1.5" />
           </g>
+
+          {/* Bengaluru Pin (Karnataka) */}
+          <g transform="translate(215, 320)">
+            <circle r="11" fill="#ca8a04" opacity="0.25">
+              <animate attributeName="r" values="5;15;5" dur="2.1s" repeatCount="indefinite" />
+              <animate attributeName="opacity" values="0.4;0.05;0.4" dur="2.1s" repeatCount="indefinite" />
+            </circle>
+            <circle r="5" fill="#ca8a04" stroke="#ffffff" strokeWidth="1.5" />
+          </g>
         </svg>
 
         {/* Floating Glass Callouts Positioned Accurately over Pins */}
+        <div style={{ position: 'absolute', top: '46%', left: '15%', zIndex: 10 }}>
+          <div
+            className="glass-callout"
+            onClick={() => {
+              const a = filtered.find(x => x.state === 'Karnataka') || filtered[0];
+              if (a) onSelectAlert(a);
+            }}
+            style={{ cursor: 'pointer', borderLeft: '4px solid #ca8a04' }}
+          >
+            <span style={{ height: '8px', width: '8px', background: '#ca8a04', borderRadius: '50%', boxShadow: '0 0 8px #ca8a04' }}></span>
+            <span>⚠️ Yellow · Urban Runoff / Bengaluru</span>
+          </div>
+        </div>
         <div style={{ position: 'absolute', top: '16%', left: '38%', zIndex: 10 }}>
           <div
             className="glass-callout"

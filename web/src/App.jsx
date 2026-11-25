@@ -94,11 +94,33 @@ const FALLBACK_ALERTS = [
       en: "Adyar and Cooum basins receiving intermittent heavy spells. Waterlogging expected in low-lying subways.",
       te: "చెన్నై నగరంలో భారీ వర్షాలు. ట్రాఫిక్ మళ్లింపులను గమనించండి.",
       ta: "சென்னையில் பரவலாக கனமழை. தாழ்வான பகுதிகளில் நீர் தேங்க வாய்ப்பு.",
-      ml: "ചെന്നൈയിൽ മിതമായ തോതിൽ മഴ തുടരുന്നു."
+      ml: "ചെന്നൈയിൽ മിതമായ തോതിൽ മഴ തുടരുന്നു.",
+      kn: "ಚೆನ್ನೈ ಕರಾವಳಿ ಭಾಗದಲ್ಲಿ ಸಾಧಾರಣದಿಂದ ಭಾರಿ ಮಳೆ."
     },
     instruction: { en: "Plan urban transit carefully and monitor GCC emergency advisories." },
     latitude: 13.0827,
     longitude: 80.2707
+  },
+  {
+    id: "alt-ka-1",
+    source: "KSNDMC / IMD Bengaluru",
+    external_id: "init-alert-blr-05",
+    state: "Karnataka",
+    district: "Bengaluru (Urban & Rural)",
+    hazard: "Flood",
+    severity: "Yellow",
+    urgency: "Expected",
+    headline: "YELLOW ALERT: Moderate Inundation & Urban Runoff Advisory",
+    description: {
+      en: "Bellandur and Varthur valley catchment receiving convective spells. Waterlogging expected in underpasses.",
+      te: "బెంగళూరు నగరంలో భారీ వర్షాలు. లోతట్టు ప్రాంతాలలో నీటి ముంపు ప్రమాదం.",
+      ta: "பெங்களூரு நகரில் பரவலாக மழை. சுரங்கப்பாதைகளில் நீர் தேங்க வாய்ப்பு.",
+      ml: "ബെംഗളൂരു നഗരത്തിൽ മിതമായ തോതിൽ മഴ സാധ്യത.",
+      kn: "ಬೆಂಗಳೂರು ನಗರ ಮತ್ತು ಸುತ್ತಮುತ್ತ ಸಾಧಾರಣದಿಂದ ಭಾರಿ ಮಳೆ. ತಗ್ಗು ಪ್ರದೇಶಗಳಲ್ಲಿ ನೀರು ನಿಲ್ಲುವ ಎಚ್ಚರಿಕೆ."
+    },
+    instruction: { en: "Avoid waterlogged underpasses; monitor BBMP flood control advisories." },
+    latitude: 12.9716,
+    longitude: 77.5946
   }
 ];
 
@@ -110,7 +132,9 @@ const FALLBACK_HELPLINES = [
   { id: "h-tn-1", state: "Tamil Nadu", district: "Statewide", name: "TN State Disaster Management Authority", phone_number: "1070" },
   { id: "h-tn-2", state: "Tamil Nadu", district: "Chennai", name: "GCC Flood Control Room", phone_number: "1913" },
   { id: "h-kl-1", state: "Kerala", district: "Statewide", name: "Kerala State Emergency Operations Centre", phone_number: "1077" },
-  { id: "h-kl-2", state: "Kerala", district: "Wayanad", name: "Wayanad Collectorate Emergency Ops", phone_number: "04936-204151" }
+  { id: "h-kl-2", state: "Kerala", district: "Wayanad", name: "Wayanad Collectorate Emergency Ops", phone_number: "04936-204151" },
+  { id: "h-ka-1", state: "Karnataka", district: "Statewide", name: "Karnataka State Disaster Management Authority", phone_number: "1070" },
+  { id: "h-ka-2", state: "Karnataka", district: "Bengaluru", name: "BBMP Disaster Control Room", phone_number: "1533" }
 ];
 
 function App() {
@@ -244,7 +268,7 @@ function App() {
               <h1 style={{ margin: 0, fontSize: '24px', fontWeight: 800 }}>South India Disaster <span style={{ color: '#1f8a4c' }}>Watch & Alert System</span></h1>
               <span style={{ fontSize: '11px', background: '#e0f2fe', color: '#0369a1', padding: '2px 8px', borderRadius: '6px', fontWeight: 700 }}>SIDAS v2.0</span>
             </div>
-            <span style={{ fontSize: '12px', color: '#64748b' }}>Telangana | Andhra Pradesh | Tamil Nadu | Kerala</span>
+            <span style={{ fontSize: '12px', color: '#64748b' }}>Telangana | Andhra Pradesh | Tamil Nadu | Kerala | Karnataka</span>
           </div>
 
           <div style={{ display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap' }}>
@@ -274,11 +298,12 @@ function App() {
             </button>
 
             <select value={selectedState} onChange={e => setSelectedState(e.target.value)} style={{ padding: '8px', borderRadius: '8px', border: '1px solid #cbd5e1', background: '#fff', fontWeight: 600 }}>
-              <option value="All">All South States (4)</option>
+              <option value="All">All South States (5)</option>
               <option value="Telangana">Telangana</option>
               <option value="Andhra Pradesh">Andhra Pradesh</option>
               <option value="Tamil Nadu">Tamil Nadu</option>
               <option value="Kerala">Kerala</option>
+              <option value="Karnataka">Karnataka</option>
             </select>
 
             <select value={language} onChange={e => setLanguage(e.target.value)} style={{ padding: '8px', borderRadius: '8px', border: '1px solid #cbd5e1', background: '#fff', fontWeight: 600 }}>
@@ -286,6 +311,7 @@ function App() {
               <option value="te">తెలుగు (TE)</option>
               <option value="ta">தமிழ் (TA)</option>
               <option value="ml">മലയാളം (ML)</option>
+              <option value="kn">ಕನ್ನಡ (KN)</option>
             </select>
           </div>
         </header>

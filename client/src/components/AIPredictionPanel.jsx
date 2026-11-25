@@ -42,6 +42,16 @@ const FALLBACK_PREDICTIONS = [
       risk_probability: '92.0%',
       confidence_score: '96%'
     }
+  },
+  {
+    city: 'Bengaluru (Urban)',
+    state: 'Karnataka',
+    prediction: {
+      predicted_severity: 'Yellow',
+      predicted_hazard: 'Flood',
+      risk_probability: '38.5%',
+      confidence_score: '91%'
+    }
   }
 ];
 

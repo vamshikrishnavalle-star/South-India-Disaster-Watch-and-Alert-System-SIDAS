@@ -9,7 +9,9 @@ const CITIES = [
   { name: 'Chennai', state: 'Tamil Nadu', lat: 13.0827, lng: 80.2707 },
   { name: 'Coimbatore', state: 'Tamil Nadu', lat: 11.0168, lng: 76.9558 },
   { name: 'Kochi', state: 'Kerala', lat: 9.9312, lng: 76.2673 },
-  { name: 'Wayanad (Kalpetta)', state: 'Kerala', lat: 11.6103, lng: 76.0827 }
+  { name: 'Wayanad (Kalpetta)', state: 'Kerala', lat: 11.6103, lng: 76.0827 },
+  { name: 'Bengaluru', state: 'Karnataka', lat: 12.9716, lng: 77.5946 },
+  { name: 'Mangaluru', state: 'Karnataka', lat: 12.9141, lng: 74.8560 }
 ];
 
 async function ingestWeatherData() {
