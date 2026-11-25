@@ -10,6 +10,8 @@ import TelanganaDisasterSection from './components/TelanganaDisasterSection';
 import AndhraPradeshDisasterSection from './components/AndhraPradeshDisasterSection';
 import KarnatakaDisasterSection from './components/KarnatakaDisasterSection';
 import TamilNaduDisasterSection from './components/TamilNaduDisasterSection';
+import AnalyticsView from './components/AnalyticsView';
+import EmergencyDirectoryView from './components/EmergencyDirectoryView';
 import { Home, BarChart2, Globe, Settings, Volume2, AlertTriangle, ShieldCheck } from 'lucide-react';
 
 const FALLBACK_SUMMARY = {
@@ -143,6 +145,7 @@ const FALLBACK_HELPLINES = [
 ];
 
 function App() {
+  const [activeNavTab, setActiveNavTab] = useState('home'); // 'home' | 'analytics' | 'directory'
   const [selectedState, setSelectedState] = useState('All');
   const [language, setLanguage] = useState('en');
   const [mapMode, setMapMode] = useState('leaflet');
@@ -181,6 +184,17 @@ function App() {
     } catch (e) {
       console.warn("Web audio unavailable", e);
     }
+  };
+
+  const handleJumpToState = (stateName, sectionId) => {
+    setSelectedState(stateName);
+    if (activeNavTab !== 'home') {
+      setActiveNavTab('home');
+    }
+    setTimeout(() => {
+      const el = document.getElementById(sectionId);
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 100);
   };
 
   useEffect(() => {
@@ -273,13 +287,73 @@ function App() {
   return (
     <div className="glass-container">
       <aside style={{ width: '64px', borderRight: '1px solid var(--glass-border)', padding: '20px 0', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'space-between' }}>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-          <div style={{ width: '40px', height: '40px', background: 'linear-gradient(135deg, #1f8a4c, #2fa866)', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: '18px' }}>🛡️</div>
-          <button style={{ background: 'var(--primary-accent-light)', border: 'none', padding: '10px', borderRadius: '12px', color: 'var(--primary-accent)', cursor: 'pointer' }}><Home size={20}/></button>
-          <button style={{ background: 'none', border: 'none', color: '#64748b', cursor: 'pointer' }}><BarChart2 size={20}/></button>
-          <button style={{ background: 'none', border: 'none', color: '#64748b', cursor: 'pointer' }}><Globe size={20}/></button>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', alignItems: 'center' }}>
+          <div style={{ width: '42px', height: '42px', background: 'linear-gradient(135deg, #1f8a4c, #2fa866)', borderRadius: '12px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontSize: '20px', boxShadow: '0 4px 10px rgba(31, 138, 76, 0.3)' }} title="SIDAS South India">🛡️</div>
+          <button
+            onClick={() => setActiveNavTab('home')}
+            title="Dashboard (Home)"
+            style={{
+              background: activeNavTab === 'home' ? 'var(--primary-accent-light)' : 'transparent',
+              border: 'none',
+              padding: '10px',
+              borderRadius: '12px',
+              color: activeNavTab === 'home' ? 'var(--primary-accent)' : '#64748b',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              transition: 'all 0.15s ease'
+            }}
+          >
+            <Home size={20}/>
+          </button>
+          <button
+            onClick={() => setActiveNavTab('analytics')}
+            title="Analytics & Trends (ML Models)"
+            style={{
+              background: activeNavTab === 'analytics' ? 'var(--primary-accent-light)' : 'transparent',
+              border: 'none',
+              padding: '10px',
+              borderRadius: '12px',
+              color: activeNavTab === 'analytics' ? 'var(--primary-accent)' : '#64748b',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              transition: 'all 0.15s ease'
+            }}
+          >
+            <BarChart2 size={20}/>
+          </button>
+          <button
+            onClick={() => setActiveNavTab('directory')}
+            title="Emergency Directory & Citizen SOS"
+            style={{
+              background: activeNavTab === 'directory' ? 'var(--primary-accent-light)' : 'transparent',
+              border: 'none',
+              padding: '10px',
+              borderRadius: '12px',
+              color: activeNavTab === 'directory' ? 'var(--primary-accent)' : '#64748b',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              transition: 'all 0.15s ease'
+            }}
+          >
+            <Globe size={20}/>
+          </button>
         </div>
-        <button style={{ background: 'none', border: 'none', color: '#64748b', cursor: 'pointer' }}><Settings size={20}/></button>
+        <button
+          onClick={() => {
+            const nextLang = language === 'en' ? 'te' : language === 'te' ? 'ta' : language === 'ta' ? 'kn' : language === 'kn' ? 'ml' : 'en';
+            setLanguage(nextLang);
+          }}
+          title={`Cycle Regional Language (${language.toUpperCase()})`}
+          style={{ background: 'none', border: 'none', color: '#64748b', cursor: 'pointer', padding: '10px', borderRadius: '12px' }}
+        >
+          <Settings size={20}/>
+        </button>
       </aside>
 
       <div style={{ flex: 1, padding: '24px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
@@ -337,208 +411,205 @@ function App() {
           </div>
         </header>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '260px 1fr 320px', gap: '20px' }}>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-            <div className="glass-card">
-              <span style={{ fontSize: '13px', color: '#64748b' }}>Active Regional Alerts</span>
-              <div style={{ fontSize: '44px', fontWeight: 800, margin: '6px 0' }}>{summary.hero.activeAlerts}</div>
-              <span className="delta-chip red">↑ {summary.hero.delta}</span>
-            </div>
-            <div className="glass-card">
-              <span style={{ fontSize: '12px', color: '#64748b' }}>Red Alerts (Severe)</span>
-              <div style={{ fontSize: '22px', fontWeight: 800, color: '#dc2626' }}>{summary.kpis.redAlerts.count}</div>
-            </div>
-            <div className="glass-card">
-              <span style={{ fontSize: '12px', color: '#64748b' }}>Districts Under Watch</span>
-              <div style={{ fontSize: '22px', fontWeight: 800 }}>{summary.kpis.districtsUnderWatch.count}</div>
-            </div>
-            <div className="glass-card">
-              <span style={{ fontSize: '12px', color: '#64748b' }}>Average 24h Rainfall</span>
-              <div style={{ fontSize: '20px', fontWeight: 800, color: '#0369a1' }}>{summary.kpis.avgRainfall.value}</div>
-            </div>
-          </div>
-
-          <div>
-            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px', marginBottom: '8px' }}>
-              <button onClick={() => setMapMode('leaflet')} style={{ padding: '5px 12px', borderRadius: '8px', background: mapMode==='leaflet'?'#1f8a4c':'#fff', color: mapMode==='leaflet'?'#fff':'#333', border: '1px solid ' + (mapMode==='leaflet'?'#1f8a4c':'#e2e8f0'), cursor: 'pointer', fontSize: '11px', fontWeight: 700, boxShadow: '0 1px 3px rgba(0,0,0,0.06)' }}>Leaflet District Radar (Primary)</button>
-              <button onClick={() => setMapMode('hero')} style={{ padding: '5px 12px', borderRadius: '8px', background: mapMode==='hero'?'#1f8a4c':'#fff', color: mapMode==='hero'?'#fff':'#333', border: '1px solid ' + (mapMode==='hero'?'#1f8a4c':'#e2e8f0'), cursor: 'pointer', fontSize: '11px', fontWeight: 600, boxShadow: '0 1px 3px rgba(0,0,0,0.06)' }}>SVG Regional Map</button>
-            </div>
-            {mapMode === 'hero' ? <SouthIndiaHeroMap alerts={alerts} stateSeverities={summary.stateSeverities} onSelectAlert={setSelectedAlert}/> : <DistrictLeafletMap alerts={alerts} onSelectAlert={setSelectedAlert}/>}
-          </div>
-
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-            <AIPredictionPanel selectedState={selectedState} />
-
-            <div className="glass-card">
-              <h4 style={{ margin: '0 0 10px 0', fontSize: '14px', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <AlertTriangle size={16} color="#ea580c"/> Hazard Breakdown
-              </h4>
-              {Object.entries(summary.hazardCounts).map(([h, c]) => (
-                <div key={h} style={{ marginBottom: '8px', fontSize: '12px' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <span style={{ color: '#475569' }}>{h}</span>
-                    <strong style={{ color: c > 0 ? '#0f172a' : '#94a3b8' }}>{c} active</strong>
-                  </div>
+        {activeNavTab === 'home' && (
+          <>
+            <div style={{ display: 'grid', gridTemplateColumns: '260px 1fr 320px', gap: '20px' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                <div className="glass-card">
+                  <span style={{ fontSize: '13px', color: '#64748b' }}>Active Regional Alerts</span>
+                  <div style={{ fontSize: '44px', fontWeight: 800, margin: '6px 0' }}>{summary.hero.activeAlerts}</div>
+                  <span className="delta-chip red">↑ {summary.hero.delta}</span>
                 </div>
-              ))}
+                <div className="glass-card">
+                  <span style={{ fontSize: '12px', color: '#64748b' }}>Red Alerts (Severe)</span>
+                  <div style={{ fontSize: '22px', fontWeight: 800, color: '#dc2626' }}>{summary.kpis.redAlerts.count}</div>
+                </div>
+                <div className="glass-card">
+                  <span style={{ fontSize: '12px', color: '#64748b' }}>Districts Under Watch</span>
+                  <div style={{ fontSize: '22px', fontWeight: 800 }}>{summary.kpis.districtsUnderWatch.count}</div>
+                </div>
+                <div className="glass-card">
+                  <span style={{ fontSize: '12px', color: '#64748b' }}>Average 24h Rainfall</span>
+                  <div style={{ fontSize: '20px', fontWeight: 800, color: '#0369a1' }}>{summary.kpis.avgRainfall.value}</div>
+                </div>
+              </div>
+
+              <div>
+                <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px', marginBottom: '8px' }}>
+                  <button onClick={() => setMapMode('leaflet')} style={{ padding: '5px 12px', borderRadius: '8px', background: mapMode==='leaflet'?'#1f8a4c':'#fff', color: mapMode==='leaflet'?'#fff':'#333', border: '1px solid ' + (mapMode==='leaflet'?'#1f8a4c':'#e2e8f0'), cursor: 'pointer', fontSize: '11px', fontWeight: 700, boxShadow: '0 1px 3px rgba(0,0,0,0.06)' }}>Leaflet District Radar (Primary)</button>
+                  <button onClick={() => setMapMode('hero')} style={{ padding: '5px 12px', borderRadius: '8px', background: mapMode==='hero'?'#1f8a4c':'#fff', color: mapMode==='hero'?'#fff':'#333', border: '1px solid ' + (mapMode==='hero'?'#1f8a4c':'#e2e8f0'), cursor: 'pointer', fontSize: '11px', fontWeight: 600, boxShadow: '0 1px 3px rgba(0,0,0,0.06)' }}>SVG Regional Map</button>
+                </div>
+                {mapMode === 'hero' ? <SouthIndiaHeroMap alerts={alerts} stateSeverities={summary.stateSeverities} onSelectAlert={setSelectedAlert}/> : <DistrictLeafletMap alerts={alerts} onSelectAlert={setSelectedAlert}/>}
+              </div>
+
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                <AIPredictionPanel selectedState={selectedState} />
+
+                <div className="glass-card">
+                  <h4 style={{ margin: '0 0 10px 0', fontSize: '14px', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <AlertTriangle size={16} color="#ea580c"/> Hazard Breakdown
+                  </h4>
+                  {Object.entries(summary.hazardCounts).map(([h, c]) => (
+                    <div key={h} style={{ marginBottom: '8px', fontSize: '12px' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                        <span style={{ color: '#475569' }}>{h}</span>
+                        <strong style={{ color: c > 0 ? '#0f172a' : '#94a3b8' }}>{c} active</strong>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
 
-        {/* Dedicated State Deep-Dive Intelligence Sections (Stacked Sequentially) */}
-        <div style={{ marginTop: '28px', borderTop: '2px solid #e2e8f0', paddingTop: '24px', display: 'flex', flexDirection: 'column', gap: '32px' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
-            <div>
-              <h3 style={{ margin: 0, fontSize: '20px', fontWeight: 800, color: '#0f172a' }}>
-                State-Specific Disaster Intelligence Deep-Dives
-              </h3>
-              <p style={{ margin: '4px 0 0 0', fontSize: '13px', color: '#64748b' }}>
-                Dedicated hydrological gauge networks, ML risk models & historical telemetry for each state (One under one)
-              </p>
+            {/* Dedicated State Deep-Dive Intelligence Sections (Stacked Sequentially) */}
+            <div style={{ marginTop: '28px', borderTop: '2px solid #e2e8f0', paddingTop: '24px', display: 'flex', flexDirection: 'column', gap: '32px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
+                <div>
+                  <h3 style={{ margin: 0, fontSize: '20px', fontWeight: 800, color: '#0f172a' }}>
+                    State-Specific Disaster Intelligence Deep-Dives
+                  </h3>
+                  <p style={{ margin: '4px 0 0 0', fontSize: '13px', color: '#64748b' }}>
+                    Dedicated hydrological gauge networks, ML risk models & historical telemetry for each state (One under one)
+                  </p>
+                </div>
+                
+                {/* Quick-Jump Section Navigation Bar for All 5 States (Ordered as in Attachment 1) */}
+                <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', alignItems: 'center' }}>
+                  <button
+                    onClick={() => handleJumpToState('Kerala', 'section-kerala')}
+                    style={{
+                      padding: '8px 14px',
+                      borderRadius: '10px',
+                      border: selectedState === 'Kerala' ? '1px solid #059669' : '1px solid #cbd5e1',
+                      background: selectedState === 'Kerala' ? '#059669' : '#fff',
+                      color: selectedState === 'Kerala' ? '#fff' : '#1e293b',
+                      fontWeight: 700,
+                      fontSize: '12px',
+                      cursor: 'pointer',
+                      boxShadow: '0 1px 3px rgba(0,0,0,0.06)',
+                      transition: 'all 0.15s ease'
+                    }}
+                  >
+                    🌊 Kerala River Basins
+                  </button>
+
+                  <button
+                    onClick={() => handleJumpToState('Telangana', 'section-telangana')}
+                    style={{
+                      padding: '8px 14px',
+                      borderRadius: '10px',
+                      border: selectedState === 'Telangana' ? '1px solid #7c3aed' : '1px solid #cbd5e1',
+                      background: selectedState === 'Telangana' ? '#7c3aed' : '#fff',
+                      color: selectedState === 'Telangana' ? '#fff' : '#1e293b',
+                      fontWeight: 700,
+                      fontSize: '12px',
+                      cursor: 'pointer',
+                      boxShadow: '0 1px 3px rgba(0,0,0,0.06)',
+                      transition: 'all 0.15s ease'
+                    }}
+                  >
+                    ⚡ Telangana Disaster Watch
+                  </button>
+
+                  <button
+                    onClick={() => handleJumpToState('Andhra Pradesh', 'section-andhra')}
+                    style={{
+                      padding: '8px 14px',
+                      borderRadius: '10px',
+                      border: selectedState === 'Andhra Pradesh' ? '1px solid #ea580c' : '1px solid #cbd5e1',
+                      background: selectedState === 'Andhra Pradesh' ? '#ea580c' : '#fff',
+                      color: selectedState === 'Andhra Pradesh' ? '#fff' : '#1e293b',
+                      fontWeight: 700,
+                      fontSize: '12px',
+                      cursor: 'pointer',
+                      boxShadow: '0 1px 3px rgba(0,0,0,0.06)',
+                      transition: 'all 0.15s ease'
+                    }}
+                  >
+                    🌀 Andhra Pradesh Delta & Cyclone
+                  </button>
+
+                  <button
+                    onClick={() => handleJumpToState('Karnataka', 'section-karnataka')}
+                    style={{
+                      padding: '8px 14px',
+                      borderRadius: '10px',
+                      border: selectedState === 'Karnataka' ? '1px solid #d97706' : '1px solid #cbd5e1',
+                      background: selectedState === 'Karnataka' ? '#d97706' : '#fff',
+                      color: selectedState === 'Karnataka' ? '#fff' : '#1e293b',
+                      fontWeight: 700,
+                      fontSize: '12px',
+                      cursor: 'pointer',
+                      boxShadow: '0 1px 3px rgba(0,0,0,0.06)',
+                      transition: 'all 0.15s ease'
+                    }}
+                  >
+                    ⛰️ Karnataka Reservoir & Ghats
+                  </button>
+
+                  <button
+                    onClick={() => handleJumpToState('Tamil Nadu', 'section-tamilnadu')}
+                    style={{
+                      padding: '8px 14px',
+                      borderRadius: '10px',
+                      border: selectedState === 'Tamil Nadu' ? '1px solid #0284c7' : '1px solid #cbd5e1',
+                      background: selectedState === 'Tamil Nadu' ? '#0284c7' : '#fff',
+                      color: selectedState === 'Tamil Nadu' ? '#fff' : '#1e293b',
+                      fontWeight: 700,
+                      fontSize: '12px',
+                      cursor: 'pointer',
+                      boxShadow: '0 1px 3px rgba(0,0,0,0.06)',
+                      transition: 'all 0.15s ease'
+                    }}
+                  >
+                    🌧️ Tamil Nadu Monsoon & Delta
+                  </button>
+                </div>
+              </div>
+
+              {/* Section 1: Kerala */}
+              <div id="section-kerala" style={{ scrollMarginTop: '20px' }}>
+                <KeralaFloodBasinSection />
+              </div>
+
+              <div style={{ height: '1px', background: '#e2e8f0', margin: '8px 0' }} />
+
+              {/* Section 2: Telangana */}
+              <div id="section-telangana" style={{ scrollMarginTop: '20px' }}>
+                <TelanganaDisasterSection />
+              </div>
+
+              <div style={{ height: '1px', background: '#e2e8f0', margin: '8px 0' }} />
+
+              {/* Section 3: Andhra Pradesh */}
+              <div id="section-andhra" style={{ scrollMarginTop: '20px' }}>
+                <AndhraPradeshDisasterSection />
+              </div>
+
+              <div style={{ height: '1px', background: '#e2e8f0', margin: '8px 0' }} />
+
+              {/* Section 4: Karnataka */}
+              <div id="section-karnataka" style={{ scrollMarginTop: '20px' }}>
+                <KarnatakaDisasterSection />
+              </div>
+
+              <div style={{ height: '1px', background: '#e2e8f0', margin: '8px 0' }} />
+
+              {/* Section 5: Tamil Nadu */}
+              <div id="section-tamilnadu" style={{ scrollMarginTop: '20px' }}>
+                <TamilNaduDisasterSection />
+              </div>
             </div>
-            
-            {/* Quick-Jump Section Navigation Bar for All 5 States */}
-            <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
-              <button
-                onClick={() => {
-                  const el = document.getElementById('section-telangana');
-                  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }}
-                style={{
-                  padding: '8px 14px',
-                  borderRadius: '10px',
-                  border: '1px solid #ddd6fe',
-                  background: '#f5f3ff',
-                  color: '#6d28d9',
-                  fontWeight: 700,
-                  fontSize: '12px',
-                  cursor: 'pointer',
-                  boxShadow: '0 1px 3px rgba(0,0,0,0.06)',
-                  transition: 'all 0.15s ease'
-                }}
-              >
-                ⚡ Telangana Disaster Watch ↓
-              </button>
+          </>
+        )}
 
-              <button
-                onClick={() => {
-                  const el = document.getElementById('section-andhra');
-                  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }}
-                style={{
-                  padding: '8px 14px',
-                  borderRadius: '10px',
-                  border: '1px solid #ffedd5',
-                  background: '#fff7ed',
-                  color: '#c2410c',
-                  fontWeight: 700,
-                  fontSize: '12px',
-                  cursor: 'pointer',
-                  boxShadow: '0 1px 3px rgba(0,0,0,0.06)',
-                  transition: 'all 0.15s ease'
-                }}
-              >
-                🌀 Andhra Pradesh Delta & Cyclone ↓
-              </button>
+        {activeNavTab === 'analytics' && (
+          <AnalyticsView />
+        )}
 
-              <button
-                onClick={() => {
-                  const el = document.getElementById('section-karnataka');
-                  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }}
-                style={{
-                  padding: '8px 14px',
-                  borderRadius: '10px',
-                  border: '1px solid #fef08a',
-                  background: '#fefce8',
-                  color: '#854d0e',
-                  fontWeight: 700,
-                  fontSize: '12px',
-                  cursor: 'pointer',
-                  boxShadow: '0 1px 3px rgba(0,0,0,0.06)',
-                  transition: 'all 0.15s ease'
-                }}
-              >
-                ⛰️ Karnataka Reservoir & Ghats ↓
-              </button>
-
-              <button
-                onClick={() => {
-                  const el = document.getElementById('section-tamilnadu');
-                  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }}
-                style={{
-                  padding: '8px 14px',
-                  borderRadius: '10px',
-                  border: '1px solid #bae6fd',
-                  background: '#f0f9ff',
-                  color: '#0369a1',
-                  fontWeight: 700,
-                  fontSize: '12px',
-                  cursor: 'pointer',
-                  boxShadow: '0 1px 3px rgba(0,0,0,0.06)',
-                  transition: 'all 0.15s ease'
-                }}
-              >
-                🌧️ Tamil Nadu Monsoon & Delta ↓
-              </button>
-
-              <button
-                onClick={() => {
-                  const el = document.getElementById('section-kerala');
-                  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }}
-                style={{
-                  padding: '8px 14px',
-                  borderRadius: '10px',
-                  border: '1px solid #a7f3d0',
-                  background: '#ecfdf5',
-                  color: '#065f46',
-                  fontWeight: 700,
-                  fontSize: '12px',
-                  cursor: 'pointer',
-                  boxShadow: '0 1px 3px rgba(0,0,0,0.06)',
-                  transition: 'all 0.15s ease'
-                }}
-              >
-                🌊 Kerala River Basins (CWC) ↓
-              </button>
-            </div>
-          </div>
-
-          {/* Section 1: Telangana */}
-          <div id="section-telangana" style={{ scrollMarginTop: '20px' }}>
-            <TelanganaDisasterSection />
-          </div>
-
-          <div style={{ height: '1px', background: '#e2e8f0', margin: '8px 0' }} />
-
-          {/* Section 2: Andhra Pradesh */}
-          <div id="section-andhra" style={{ scrollMarginTop: '20px' }}>
-            <AndhraPradeshDisasterSection />
-          </div>
-
-          <div style={{ height: '1px', background: '#e2e8f0', margin: '8px 0' }} />
-
-          {/* Section 3: Karnataka */}
-          <div id="section-karnataka" style={{ scrollMarginTop: '20px' }}>
-            <KarnatakaDisasterSection />
-          </div>
-
-          <div style={{ height: '1px', background: '#e2e8f0', margin: '8px 0' }} />
-
-          {/* Section 4: Tamil Nadu */}
-          <div id="section-tamilnadu" style={{ scrollMarginTop: '20px' }}>
-            <TamilNaduDisasterSection />
-          </div>
-
-          <div style={{ height: '1px', background: '#e2e8f0', margin: '8px 0' }} />
-
-          {/* Section 5: Kerala */}
-          <div id="section-kerala" style={{ scrollMarginTop: '20px' }}>
-            <KeralaFloodBasinSection />
-          </div>
-        </div>
+        {activeNavTab === 'directory' && (
+          <EmergencyDirectoryView onOpenSos={() => setIsSosOpen(true)} />
+        )}
       </div>
 
       <AlertDetailDrawer alert={selectedAlert} language={language} onClose={() => setSelectedAlert(null)} helplines={helplines} />
