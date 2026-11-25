@@ -140,7 +140,7 @@ const FALLBACK_HELPLINES = [
 function App() {
   const [selectedState, setSelectedState] = useState('All');
   const [language, setLanguage] = useState('en');
-  const [mapMode, setMapMode] = useState('hero');
+  const [mapMode, setMapMode] = useState('leaflet');
   const [summary, setSummary] = useState(null);
   const [alerts, setAlerts] = useState([]);
   const [helplines, setHelplines] = useState([]);
@@ -339,8 +339,8 @@ function App() {
 
           <div>
             <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px', marginBottom: '8px' }}>
-              <button onClick={() => setMapMode('hero')} style={{ padding: '4px 10px', borderRadius: '6px', background: mapMode==='hero'?'#1f8a4c':'#fff', color: mapMode==='hero'?'#fff':'#333', border: 'none', cursor: 'pointer', fontSize: '11px', fontWeight: 600 }}>SVG Regional Map</button>
-              <button onClick={() => setMapMode('leaflet')} style={{ padding: '4px 10px', borderRadius: '6px', background: mapMode==='leaflet'?'#1f8a4c':'#fff', color: mapMode==='leaflet'?'#fff':'#333', border: 'none', cursor: 'pointer', fontSize: '11px', fontWeight: 600 }}>Leaflet District Radar</button>
+              <button onClick={() => setMapMode('leaflet')} style={{ padding: '5px 12px', borderRadius: '8px', background: mapMode==='leaflet'?'#1f8a4c':'#fff', color: mapMode==='leaflet'?'#fff':'#333', border: '1px solid ' + (mapMode==='leaflet'?'#1f8a4c':'#e2e8f0'), cursor: 'pointer', fontSize: '11px', fontWeight: 700, boxShadow: '0 1px 3px rgba(0,0,0,0.06)' }}>Leaflet District Radar (Primary)</button>
+              <button onClick={() => setMapMode('hero')} style={{ padding: '5px 12px', borderRadius: '8px', background: mapMode==='hero'?'#1f8a4c':'#fff', color: mapMode==='hero'?'#fff':'#333', border: '1px solid ' + (mapMode==='hero'?'#1f8a4c':'#e2e8f0'), cursor: 'pointer', fontSize: '11px', fontWeight: 600, boxShadow: '0 1px 3px rgba(0,0,0,0.06)' }}>SVG Regional Map</button>
             </div>
             {mapMode === 'hero' ? <SouthIndiaHeroMap alerts={alerts} stateSeverities={summary.stateSeverities} onSelectAlert={setSelectedAlert}/> : <DistrictLeafletMap alerts={alerts} onSelectAlert={setSelectedAlert}/>}
           </div>
